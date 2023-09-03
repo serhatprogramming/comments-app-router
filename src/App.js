@@ -3,7 +3,8 @@ import CommentList from "./views/CommentList";
 import About from "./views/About";
 import Footer from "./components/Footer";
 import Login from "./views/Login";
-import CommentForm from "./components/CommentForm";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import UserDetails from "./views/UserDetails";
 
 const App = () => {
   const users = [
@@ -18,40 +19,31 @@ const App = () => {
     { id: 4, name: "Bob Brown", username: "bobbrown", numberOfComments: 35 },
     { id: 5, name: "Ella Davis", username: "ellad", numberOfComments: 62 },
   ];
-
-  const comments = [
-    { id: 1, comment: "Great work on this project!", likes: 15, views: 102 },
-    {
-      id: 2,
-      comment: "I have a question. Can you clarify this point?",
-      likes: 8,
-      views: 78,
-    },
-    { id: 3, comment: "Awesome, keep it up!", likes: 25, views: 210 },
-    {
-      id: 4,
-      comment: "I found a typo in the second paragraph.",
-      likes: 4,
-      views: 45,
-    },
-    {
-      id: 5,
-      comment: "This is very informative. Thanks for sharing!",
-      likes: 12,
-      views: 135,
-    },
-  ];
-
+  const menuStyle = {
+    display: "flex",
+    justifyContent: "space-between",
+    maxWidth: "200px",
+  };
   return (
-    <div>
-      <h1>Comment Application</h1>
-      <CommentList comments={comments} />
-      <CommentForm />
-      <UserList users={users} />
-      <About />
-      <Login />
-      <Footer />
-    </div>
+    <Router>
+      <div>
+        <div style={menuStyle}>
+          <Link to="/">Home</Link>
+          <Link to="/about">About</Link>
+          <Link to="/users">Users</Link>
+          <Link to="/login">Login</Link>
+        </div>
+        <h1>Comment Application</h1>
+        <Routes>
+          <Route path="/" element={<CommentList />} />
+          <Route path="/users" element={<UserList />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/user/:id" element={<UserDetails users={users} />} />
+        </Routes>
+        <Footer />
+      </div>
+    </Router>
   );
 };
 
